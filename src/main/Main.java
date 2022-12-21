@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 import facades.AuthFacade;
 import models.users.Customer;
-import models.users.Guest;
-import models.users.RegisteredUser;
 import models.users.User;
 
 public class Main {
@@ -54,11 +52,10 @@ public class Main {
 				System.out.println("=========");
 				System.out.println("1. Order");
 				if (user.getRole().equalsIgnoreCase("customer")) {
-					System.out.println("2. History");
+					System.out.println("2. Messages");
 				}
 				if (user.getRole().equalsIgnoreCase("admin")) {
-					System.out.println("2. Manage Users");
-					System.out.println("3. Manage Products");
+					System.out.println("2. Insert New Product");
 				}
 				System.out.println("0. Logout");
 				System.out.print(">> ");
@@ -74,11 +71,12 @@ public class Main {
 				if (option == 1) {
 					// order
 				} else if (option == 2  && user.getRole().equalsIgnoreCase("customer")) {
-					// history (customer only, guest gk bisa liat historynya)
+					// messages pake observer
 				} else if (option == 2 && user.getRole().equalsIgnoreCase("admin")) {
-					// manage users (admin only)
-				} else if (option == 3 && user.getRole().equalsIgnoreCase("admin")) {
 					// manage products (admin only)
+					
+					// insert pake builder kali ye(?)
+					
 				} else if (option == 0) {
 					user = AuthFacade.logout();
 				}
