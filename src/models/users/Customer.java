@@ -1,17 +1,22 @@
 package models.users;
 
+import facades.DatabaseFacade;
+
 public class Customer extends RegisteredUser {
 	private String phone;
 	private int points;
 
-	public Customer(String name, String email, String password, String phone) {
-		super(name, "customer", email, password);
-		this.phone = phone;
+	public Customer() {
+		super("customer");
 		this.points = 0;
 	}
 
 	public String getPhone() {
 		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public int getPoints() {
@@ -24,5 +29,10 @@ public class Customer extends RegisteredUser {
 	
 	public void subtractPoints(int value) {
 		this.points -= value; 
+	}
+	
+	public void saveToDatabase() {
+		DatabaseFacade db = new DatabaseFacade();
+		db.insertCustomer(this);
 	}
 }
