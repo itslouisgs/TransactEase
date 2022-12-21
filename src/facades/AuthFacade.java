@@ -29,5 +29,9 @@ public class AuthFacade {
 	public static User login(String username, String password) {
 		return DatabaseFacade.authenticate(username, password);
 	}
+	
+	public static User logout() {
+		return null;
+	}
 
 }

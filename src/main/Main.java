@@ -2,9 +2,9 @@ package main;
 
 import java.util.Scanner;
 
-import database.DatabaseConnection;
 import facades.AuthFacade;
 import models.users.Customer;
+import models.users.Guest;
 import models.users.RegisteredUser;
 import models.users.User;
 
@@ -51,10 +51,18 @@ public class Main {
 				// guest
 				if (user.getRole().equalsIgnoreCase("guest")) {
 					System.out.println("You're logged in as Guest");
+					System.out.println("GuestID: " + ((Guest) user).getId());
 				}
 				// customer or admin
 				else if (user.getRole().equalsIgnoreCase("customer") ||user.getRole().equalsIgnoreCase("admin")) {
 					System.out.println("Welcome " + ((RegisteredUser)user).getName());
+					System.out.println("Email: " + ((RegisteredUser)user).getEmail());
+					System.out.println("Role: " + ((RegisteredUser)user).getRole());
+					
+					if (((RegisteredUser)user).getRole().equalsIgnoreCase("customer")) {
+						System.out.println("Phone: " + ((Customer)user).getPhone());
+						System.out.println("Points: " + ((Customer)user).getPoints());
+					}
 				}
 				else {
 					break;
@@ -63,22 +71,37 @@ public class Main {
 				System.out.println("Main Menu");
 				System.out.println("=========");
 				System.out.println("1. Order");
-				System.out.println("2. History");
-				System.out.println("3. Logout");
+				if (user.getRole().equalsIgnoreCase("customer")) {
+					System.out.println("2. History");
+				}
+				if (user.getRole().equalsIgnoreCase("admin")) {
+					System.out.println("2. Manage Users");
+					System.out.println("3. Manage Products");
+				}
+				System.out.println("0. Logout");
 				System.out.print(">> ");
 				
 				try {
 					option = scan.nextInt();
 				} catch (Exception e) {
-					option = 0;
+					option = -1;
 				}
 				
 				scan.nextLine();
 				
-				if (option == 3) {
-					break;
+				if (option == 1) {
+					// order
+				} else if (option == 2  && user.getRole().equalsIgnoreCase("customer")) {
+					// history (customer only, guest gk bisa liat historynya)
+				} else if (option == 2 && user.getRole().equalsIgnoreCase("admin")) {
+					// manage users (admin only)
+				} else if (option == 3 && user.getRole().equalsIgnoreCase("admin")) {
+					// manage products (admin only)
+				} else if (option == 0) {
+					user = AuthFacade.logout();
 				}
-			} while (option != 3);
+				
+			} while (option != 0);
 			
 		} while (true);
 	}

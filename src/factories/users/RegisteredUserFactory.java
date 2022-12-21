@@ -1,7 +1,7 @@
 package factories.users;
 
-import models.users.User;
+import models.users.RegisteredUser;
 
 public interface RegisteredUserFactory {
-	abstract public User getUser();
+	abstract public RegisteredUser getUser();
 }
