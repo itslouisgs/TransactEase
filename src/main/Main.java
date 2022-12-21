@@ -48,25 +48,7 @@ public class Main {
 			int option = 0;
 			
 			do {
-				// guest
-				if (user.getRole().equalsIgnoreCase("guest")) {
-					System.out.println("You're logged in as Guest");
-					System.out.println("GuestID: " + ((Guest) user).getId());
-				}
-				// customer or admin
-				else if (user.getRole().equalsIgnoreCase("customer") ||user.getRole().equalsIgnoreCase("admin")) {
-					System.out.println("Welcome " + ((RegisteredUser)user).getName());
-					System.out.println("Email: " + ((RegisteredUser)user).getEmail());
-					System.out.println("Role: " + ((RegisteredUser)user).getRole());
-					
-					if (((RegisteredUser)user).getRole().equalsIgnoreCase("customer")) {
-						System.out.println("Phone: " + ((Customer)user).getPhone());
-						System.out.println("Points: " + ((Customer)user).getPoints());
-					}
-				}
-				else {
-					break;
-				}
+				user.displayInformation();
 				
 				System.out.println("Main Menu");
 				System.out.println("=========");

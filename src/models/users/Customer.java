@@ -32,7 +32,13 @@ public class Customer extends RegisteredUser {
 	}
 	
 	public void saveToDatabase() {
-		DatabaseFacade db = new DatabaseFacade();
-		db.insertCustomer(this);
+		DatabaseFacade.insertCustomer(this);
+	}
+	
+	@Override
+	public void displayInformation() {
+		super.displayInformation();
+		System.out.println("Phone: " + getPhone());
+		System.out.println("Points: " + getPoints());
 	}
 }

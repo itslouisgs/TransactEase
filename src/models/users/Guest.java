@@ -12,4 +12,9 @@ public class Guest extends User {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public void displayInformation() {
+		System.out.println("You're logged in as Guest #" + getId());
+	}
 }

@@ -32,4 +32,11 @@ public class RegisteredUser extends User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public void displayInformation() {
+		System.out.println("Name: " + getName());
+		System.out.println("Email: " + getEmail());
+		System.out.println("Role: " + getRole());
+	}
 }

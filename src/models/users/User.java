@@ -1,6 +1,6 @@
 package models.users;
 
-public class User {
+public abstract class User {
 	private String role;
 
 	protected User(String role) {
@@ -10,5 +10,7 @@ public class User {
 	public String getRole() {
 		return role;
 	}
+	
+	abstract public void displayInformation();
 
 }
