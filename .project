@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>aolFLA</name>
+	<name>aolFLA-gui</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1673238858382</id>
+			<id>1673780310884</id>
 			<name></name>
 			<type>30</type>
 			<matcher>

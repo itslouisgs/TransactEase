@@ -4,34 +4,89 @@ import factories.users.CustomerFactory;
 import factories.users.RegisteredUserFactory;
 import models.users.Customer;
 import models.users.Guest;
+import models.users.RegisteredUser;
 import models.users.User;
+import session.LoggedInUser;
 
 public class AuthFacade {
-	private static RegisteredUserFactory registeredUserFactory;
+	public static AuthFacade instance;
+	private String errorMsg = "";
 	
-	public static User register(String name, String email, String password, String phone) {
-		registeredUserFactory = new CustomerFactory();
+	public static AuthFacade getInstance() {
+		if(instance == null) {
+			instance = new AuthFacade();
+		}
+		
+		return instance;
+	}
+	
+	public boolean register(String name, String email, String password, String confirm, String phone) {
+		if(name.isEmpty() || email.isEmpty() || password.isEmpty() || password.isEmpty() || confirm.isEmpty() || phone.isEmpty()) {
+			errorMsg = "All fields must be filled!";
+			return false;
+		}else if(!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+		        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+			errorMsg = "Email must be in a correct format!";
+			return false;
+		} else if(phone.length() != 12 || !phone.matches("^[0-9]*$")) {
+			errorMsg = "Phone must be numeric and the length must be 12";
+			return false;
+		}else if(!password.matches("^[a-zA-Z0-9]*$")) {
+			errorMsg = "Password must be alphanumeric";
+			return false;
+		} else if(!password.equals(confirm)) {
+			errorMsg = "Password must be the same as confirm password";
+			return false;
+		} 
+		
+		RegisteredUserFactory registeredUserFactory = new CustomerFactory();
 		
 		Customer customer = (Customer) registeredUserFactory.getUser();
 		customer.setName(name);
 		customer.setEmail(email);
 		customer.setPassword(password);
 		customer.setPhone(phone);
-		customer.saveToDatabase();
+		if(!customer.insert()) {
+			return false;
+		}
 		
-		return customer;
+		return true;
 	}
 	
-	public static User loginAsGuest() {
-		return new Guest();
+	public void loginAsGuest() {
+		LoggedInUser.getInstance().setLogged(new Guest());
+		return;
 	}
 	
-	public static User login(String username, String password) {
-		return DatabaseFacade.authenticate(username, password);
-	}
-	
-	public static User logout() {
-		return null;
+	public boolean login(String email, String password) {
+		if(email.isEmpty() || password.isEmpty()) {
+			errorMsg = "Email and password must be filled!";
+			return false;
+		}else if(!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+		        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+			errorMsg = "Email must be in a correct format!";
+			return false;
+		} else if(!password.matches("^[a-zA-Z0-9]*$")) {
+			errorMsg = "Password must be alphanumeric";
+			return false;
+		}
+		
+		RegisteredUser u = new RegisteredUser().authenticate(email, password);
+		if(u == null) {
+			errorMsg = "Wrong credential!";
+			return false;
+		} else {
+			LoggedInUser.getInstance().setLogged(u);
+		}
+		
+		return true;
 	}
 
+	public static void logout() {
+		LoggedInUser.getInstance().removeLogged();
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
 }

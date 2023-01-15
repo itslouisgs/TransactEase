@@ -1,2 +1,8 @@
-/models/
+/builder/
 /database/
+/facades/
+/factories/
+/main/
+/models/
+/session/
+/views/
