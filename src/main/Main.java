@@ -50,12 +50,13 @@ public class Main {
 				
 				System.out.println("Main Menu");
 				System.out.println("=========");
-				System.out.println("1. Order");
 				if (user.getRole().equalsIgnoreCase("customer")) {
+					System.out.println("1. Order");
 					System.out.println("2. Messages");
 				}
 				if (user.getRole().equalsIgnoreCase("admin")) {
-					System.out.println("2. Insert New Product");
+					System.out.println("1. Insert New Product");
+					System.out.println("2. Manage Products");
 				}
 				System.out.println("0. Logout");
 				System.out.print(">> ");
