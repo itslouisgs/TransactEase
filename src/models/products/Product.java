@@ -84,7 +84,7 @@ public class Product {
 	}
 	
 	public boolean insert() {
-		String query = String.format("INSERT INTO Products (id, name, price , stock) VALUES (?, ?, ?, ?)");
+		String query = String.format("INSERT INTO Products (id, name, price, stock) VALUES (?, ?, ?, ?)");
 		PreparedStatement ps = con.prepareStatement(query);
 			
 		try {

@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +31,7 @@ import facades.ProductFacade;
 import models.products.Product;
 
 public class AdminPage extends JFrame {
-	private JPanel northPanel, centerPanel, southPanel, insertPanel, updatePanel, deletePanel;
+	private JPanel allPanel, northPanel, centerPanel, southPanel, insertPanel, updatePanel, deletePanel;
 	private JLabel listLbl, idLbl, nameLbl, stockLbl, priceLbl;
 	private JLabel idULbl, nameULbl, stockULbl, priceULbl;
 	private JTextField idTxt, nameTxt, stockTxt, priceTxt;
@@ -114,7 +115,7 @@ public class AdminPage extends JFrame {
 				String price = priceUTxt.getText();
 				String stock = stockUTxt.getText();
 
-				boolean updated = ProductFacade.getInstance().updateSong(id, name, price, stock);
+				boolean updated = ProductFacade.getInstance().updateProduct(id, name, price, stock);
 				if(!updated) {
 					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
 				}else {
@@ -200,6 +201,8 @@ public class AdminPage extends JFrame {
 	}
 
 	private void initialize() {
+		allPanel = new JPanel(new BorderLayout());
+		allPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		northPanel = new JPanel();
 		centerPanel = new JPanel(new GridLayout(2, 1));
 		southPanel = new JPanel();
@@ -214,14 +217,14 @@ public class AdminPage extends JFrame {
 
 		// Insert
 		nameLbl = new JLabel("Product Name");
-		stockLbl = new JLabel("Product Price");
-		priceLbl = new JLabel("Product Stock");
+		stockLbl = new JLabel("Product Stock");
+		priceLbl = new JLabel("Product Price");
 
 		// Update
 		idULbl = new JLabel("Product ID");
 		nameULbl = new JLabel("Product Name");
-		stockULbl = new JLabel("Product Price");
-		priceULbl = new JLabel("Product Stock");
+		stockULbl = new JLabel("Product Stock");
+		priceULbl = new JLabel("Product Price");
 
 		// Delete
 		idTxt = new JTextField();
@@ -277,10 +280,10 @@ public class AdminPage extends JFrame {
 
 		insertPanel.add(nameLbl);
 		insertPanel.add(nameTxt);
-		insertPanel.add(stockLbl);
-		insertPanel.add(stockTxt);
 		insertPanel.add(priceLbl);
 		insertPanel.add(priceTxt);
+		insertPanel.add(stockLbl);
+		insertPanel.add(stockTxt);
 
 		updatePanel.add(idULbl);
 		updatePanel.add(idUTxt);
@@ -302,20 +305,22 @@ public class AdminPage extends JFrame {
 		southPanel.add(updateBtn);
 		southPanel.add(deleteBtn);
 
-		add(northPanel, BorderLayout.NORTH);
-		add(centerPanel, BorderLayout.CENTER);
-		add(southPanel, BorderLayout.SOUTH);
+		allPanel.add(northPanel, BorderLayout.NORTH);
+		allPanel.add(centerPanel, BorderLayout.CENTER);
+		allPanel.add(southPanel, BorderLayout.SOUTH);
+		
+		add(allPanel);
 	}
 
 	public void setData() {
 		data.setRowCount(0);
 		
-		for (Product song : products) {
+		for (Product p : products) {
 			Vector<Object> rowData = new Vector<>();
-			rowData.add(song.getId());
-			rowData.add(song.getName());
-			rowData.add(song.getPrice());
-			rowData.add(song.getStock());
+			rowData.add(p.getId());
+			rowData.add(p.getName());
+			rowData.add(p.getPrice());
+			rowData.add(p.getStock());
 			data.addRow(rowData);
 		}
 	}

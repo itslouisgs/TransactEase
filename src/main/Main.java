@@ -1,11 +1,12 @@
 package main;
 
 import views.LoginPage;
+import views.OrderPage;
 
 public class Main {
 
 	public Main() {
-		new LoginPage();
+		new OrderPage();
 	}
 
 	public static void main(String[] args) {

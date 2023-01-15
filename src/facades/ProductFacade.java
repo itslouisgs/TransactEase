@@ -60,7 +60,7 @@ public class ProductFacade {
 		}
 	}
 	
-	public boolean updateSong(String id, String name, String price, String stock) {
+	public boolean updateProduct(String id, String name, String price, String stock) {
 		if (id.isEmpty() || name.isEmpty() || price.isEmpty() || stock.isEmpty()) {
 			errorMsg = "All fields must be filled!";
 			return false;
