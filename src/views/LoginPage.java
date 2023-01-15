@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -59,6 +60,7 @@ public class LoginPage extends JFrame {
 				if(!AuthFacade.getInstance().login(email, password)) {
 					JOptionPane.showMessageDialog(null, AuthFacade.getInstance().getErrorMsg());
 				} else {
+					JOptionPane.showMessageDialog(null, "Login success!");
 					if(LoggedInUser.getInstance().getLogged().getRole().equals("admin")) {
 						new AdminPage();
 						dispose();
@@ -67,25 +69,14 @@ public class LoginPage extends JFrame {
 			}
 		});
 	
-		lblRegister.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {}
-			
+		lblRegister.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 				new RegisterPage();
 				dispose();
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {}
 		});
 	}
 

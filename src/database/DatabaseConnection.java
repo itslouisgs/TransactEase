@@ -76,7 +76,8 @@ public class DatabaseConnection {
     public PreparedStatement prepareStatement(String query) {
     	PreparedStatement ps = null;
     	try {
-			ps = con.prepareStatement(query);
+			ps = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_UPDATABLE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

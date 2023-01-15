@@ -82,7 +82,7 @@ public class AuthFacade {
 		return true;
 	}
 
-	public static void logout() {
+	public void logout() {
 		LoggedInUser.getInstance().removeLogged();
 	}
 

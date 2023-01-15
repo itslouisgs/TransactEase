@@ -3,29 +3,48 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import facades.AuthFacade;
+import facades.ProductFacade;
+import models.products.Product;
+
 public class AdminPage extends JFrame {
-	JPanel northPanel, centerPanel, southPanel, insertPanel, updatePanel, deletePanel;
-	JLabel listLbl, idLbl, titleLbl, artistLbl, albumLbl;
-	JLabel idULbl, titleULbl, artistULbl, albumULbl;
-	JTextField idTxt, titleTxt, artistTxt, albumTxt;
-	JTextField idUTxt, titleUTxt, artistUTxt, albumUTxt;
-	JButton insertBtn, updateBtn, deleteBtn;
-	JTable table;
-	DefaultTableModel data;
-	JScrollPane scroll;
-	JTabbedPane tabs;
+	private JPanel northPanel, centerPanel, southPanel, insertPanel, updatePanel, deletePanel;
+	private JLabel listLbl, idLbl, nameLbl, stockLbl, priceLbl;
+	private JLabel idULbl, nameULbl, stockULbl, priceULbl;
+	private JTextField idTxt, nameTxt, stockTxt, priceTxt;
+	private JTextField idUTxt, nameUTxt, stockUTxt, priceUTxt;
+	private JButton insertBtn, updateBtn, deleteBtn;
+	private JTable table;
+	private DefaultTableModel data;
+	private JScrollPane scroll;
+	private JTabbedPane tabs;
+	private JMenuBar menuBar;
+	private JMenu menu;
+	private JMenuItem menuItem;
+	
+	Vector<Product> products = new Vector<>();
 
 	public AdminPage() {
 		initialize();
@@ -35,10 +54,149 @@ public class AdminPage extends JFrame {
 		setLocationRelativeTo(null);
 		
 		addListener();
+		loadData();
 	}
 
 	private void addListener() {
+		tabs.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				tabs = (JTabbedPane) e.getSource();
+				int selectedTab = tabs.getSelectedIndex();
+
+				if (selectedTab == 0) {
+					insertBtn.setEnabled(true);
+					deleteBtn.setEnabled(false);
+					updateBtn.setEnabled(false);
+				} else if (selectedTab == 1) {
+					deleteBtn.setEnabled(false);
+					insertBtn.setEnabled(false);
+					updateBtn.setEnabled(true);
+				} else {
+					deleteBtn.setEnabled(true);
+					insertBtn.setEnabled(false);
+					updateBtn.setEnabled(false);
+				}
+			}
+		});
 		
+		insertBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = nameTxt.getText();
+				String price = priceTxt.getText();
+				String stock = stockTxt.getText();
+
+				boolean inserted = ProductFacade.getInstance().insertProduct(name, price, stock);
+				
+				if(inserted == false) {
+					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+				}
+				else {
+					loadData();;
+					
+					idTxt.setText("");
+					nameTxt.setText("");
+					priceTxt.setText("");
+					stockTxt.setText("");
+				}
+			}
+		});
+		
+		updateBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String id = idUTxt.getText();
+				String name = nameUTxt.getText();
+				String price = priceUTxt.getText();
+				String stock = stockUTxt.getText();
+
+				boolean updated = ProductFacade.getInstance().updateSong(id, name, price, stock);
+				if(!updated) {
+					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+				}else {
+					loadData();
+					
+					idTxt.setText("");
+					nameTxt.setText("");
+					priceTxt.setText("");
+					stockTxt.setText("");
+				}
+			}
+		});
+		
+		deleteBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = idTxt.getText();
+
+				boolean deleted = ProductFacade.getInstance().deleteSong(id);
+				
+				if(!deleted) {
+					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+				}else {
+					loadData();
+					
+					idTxt.setText("");
+					nameTxt.setText("");
+					priceTxt.setText("");
+					stockTxt.setText("");
+				}
+			}
+		});
+
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				int selectedTab = tabs.getSelectedIndex();
+				if (selectedTab == 0) {
+					nameTxt.setText(data.getValueAt(row, 1).toString());
+					priceTxt.setText(data.getValueAt(row, 2).toString());
+					stockTxt.setText(data.getValueAt(row, 3).toString());
+
+					idTxt.setText("");
+					idUTxt.setText("");
+					nameUTxt.setText("");
+					priceUTxt.setText("");
+					stockUTxt.setText("");
+				} else if (selectedTab == 1) {
+					idUTxt.setText(data.getValueAt(row, 0).toString());
+					nameUTxt.setText(data.getValueAt(row, 1).toString());
+					priceUTxt.setText(data.getValueAt(row, 2).toString());
+					stockUTxt.setText(data.getValueAt(row, 3).toString());
+
+					idTxt.setText("");
+					nameTxt.setText("");
+					priceTxt.setText("");
+					stockTxt.setText("");
+				} else {
+					idTxt.setText(data.getValueAt(row, 0).toString());
+
+					nameTxt.setText("");
+					priceTxt.setText("");
+					stockTxt.setText("");
+					idUTxt.setText("");
+					nameUTxt.setText("");
+					priceUTxt.setText("");
+					stockUTxt.setText("");
+				}
+			}
+		});
+
+		menuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AuthFacade.getInstance().logout();
+				new LoginPage();
+				dispose();
+			}
+		});
 	}
 
 	private void initialize() {
@@ -49,47 +207,51 @@ public class AdminPage extends JFrame {
 		updatePanel = new JPanel(new GridLayout(4, 2));
 		deletePanel = new JPanel(new GridLayout(1, 2));
 		
-		listLbl = new JLabel("Song List");
+		listLbl = new JLabel("Product List");
 
 		// Delete
-		idLbl = new JLabel("Song ID");
+		idLbl = new JLabel("Product ID");
 
 		// Insert
-		titleLbl = new JLabel("Song Title");
-		artistLbl = new JLabel("Song Artist");
-		albumLbl = new JLabel("Song Album");
+		nameLbl = new JLabel("Product Name");
+		stockLbl = new JLabel("Product Price");
+		priceLbl = new JLabel("Product Stock");
 
 		// Update
-		idULbl = new JLabel("Song ID");
-		titleULbl = new JLabel("Song Title");
-		artistULbl = new JLabel("Song Artist");
-		albumULbl = new JLabel("Song Album");
+		idULbl = new JLabel("Product ID");
+		nameULbl = new JLabel("Product Name");
+		stockULbl = new JLabel("Product Price");
+		priceULbl = new JLabel("Product Stock");
 
 		// Delete
 		idTxt = new JTextField();
 
 		// Insert
-		titleTxt = new JTextField();
-		albumTxt = new JTextField();
-		artistTxt = new JTextField();
+		nameTxt = new JTextField();
+		priceTxt = new JTextField();
+		stockTxt = new JTextField();
 
 		// Update
 		idUTxt = new JTextField();
-		titleUTxt = new JTextField();
-		albumUTxt = new JTextField();
-		artistUTxt = new JTextField();
+		nameUTxt = new JTextField();
+		priceUTxt = new JTextField();
+		stockUTxt = new JTextField();
 
 		insertBtn = new JButton("Insert");
 		updateBtn = new JButton("Update");
 		deleteBtn = new JButton("Delete");
+		
+		insertBtn.setEnabled(true);
+		deleteBtn.setEnabled(false);
+		updateBtn.setEnabled(false);
 
 		tabs = new JTabbedPane();
 
 		Vector<Object> header = new Vector<>();
 		header.add("ID");
-		header.add("Title");
-		header.add("Artist");
-		header.add("Album");
+		header.add("Name");
+		header.add("Price");
+		header.add("Stock");
 
 		data = new DefaultTableModel(header, 0);
 		table = new JTable(data) {
@@ -98,34 +260,40 @@ public class AdminPage extends JFrame {
 			};
 		};
 
-		addListener();
-
 		scroll = new JScrollPane(table);
+		
+		menuBar = new JMenuBar();
+		menu = new JMenu("Hello admin!");
+		menuItem = new JMenuItem("Logout");
+		
+		menu.add(menuItem);
+		menuBar.add(menu);
+		setJMenuBar(menuBar);
 
 		northPanel.add(listLbl);
 
 		deletePanel.add(idLbl);
 		deletePanel.add(idTxt);
 
-		insertPanel.add(titleLbl);
-		insertPanel.add(titleTxt);
-		insertPanel.add(artistLbl);
-		insertPanel.add(artistTxt);
-		insertPanel.add(albumLbl);
-		insertPanel.add(albumTxt);
+		insertPanel.add(nameLbl);
+		insertPanel.add(nameTxt);
+		insertPanel.add(stockLbl);
+		insertPanel.add(stockTxt);
+		insertPanel.add(priceLbl);
+		insertPanel.add(priceTxt);
 
 		updatePanel.add(idULbl);
 		updatePanel.add(idUTxt);
-		updatePanel.add(titleULbl);
-		updatePanel.add(titleUTxt);
-		updatePanel.add(artistULbl);
-		updatePanel.add(artistUTxt);
-		updatePanel.add(albumULbl);
-		updatePanel.add(albumUTxt);
+		updatePanel.add(nameULbl);
+		updatePanel.add(nameUTxt);
+		updatePanel.add(stockULbl);
+		updatePanel.add(stockUTxt);
+		updatePanel.add(priceULbl);
+		updatePanel.add(priceUTxt);
 
-		tabs.add("Insert Song", insertPanel);
-		tabs.add("Update Song", updatePanel);
-		tabs.add("Delete Song", deletePanel);
+		tabs.add("Insert Product", insertPanel);
+		tabs.add("Update Product", updatePanel);
+		tabs.add("Delete Product", deletePanel);
 
 		centerPanel.add(scroll);
 		centerPanel.add(tabs);
@@ -139,4 +307,22 @@ public class AdminPage extends JFrame {
 		add(southPanel, BorderLayout.SOUTH);
 	}
 
+	public void setData() {
+		data.setRowCount(0);
+		
+		for (Product song : products) {
+			Vector<Object> rowData = new Vector<>();
+			rowData.add(song.getId());
+			rowData.add(song.getName());
+			rowData.add(song.getPrice());
+			rowData.add(song.getStock());
+			data.addRow(rowData);
+		}
+	}
+
+	public void loadData() {
+		products = ProductFacade.getInstance().getAllProducts();
+				
+		setData();
+	}
 }
