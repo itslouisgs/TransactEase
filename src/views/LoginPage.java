@@ -63,8 +63,10 @@ public class LoginPage extends JFrame {
 					JOptionPane.showMessageDialog(null, "Login success!");
 					if(LoggedInUser.getInstance().getLogged().getRole().equals("admin")) {
 						new AdminPage();
-						dispose();
+					} else {
+						new OrderPage();
 					}
+					dispose();
 				}
 			}
 		});
