@@ -16,10 +16,11 @@ public class User {
 	private String role;
 	private DatabaseConnection db = DatabaseConnection.getInstance();
 	
-	public User() {}
-	
-	protected User(String role) {
+	protected User(String name, String email, String password, String role) {
 		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
 		this.role = role;
 	}
 
@@ -68,11 +69,11 @@ public class User {
 				factory = new CustomerFactory();
 			}
 			
-			user = (User) factory.getUser();
-			
-			user.setName(rs.getString("name"));
-			user.setEmail(rs.getString("email"));
-			user.setPassword(rs.getString("password"));
+			user = factory.getUser(
+					rs.getString("name"), 
+					rs.getString("email"), 
+					rs.getString("password")
+				);
 			
 			if (user.getRole().equalsIgnoreCase("customer")) {
 				((Customer) user).setPhone(rs.getString("phone"));

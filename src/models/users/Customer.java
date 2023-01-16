@@ -10,8 +10,8 @@ public class Customer extends User {
 	private int points;
 	private static DatabaseConnection db = DatabaseConnection.getInstance();
 
-	public Customer() {
-		super("customer");
+	public Customer(String name, String email, String password) {
+		super(name, email, password, "customer");
 		this.points = 0;
 	}
 
