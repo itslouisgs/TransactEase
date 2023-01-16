@@ -16,6 +16,8 @@ public class User {
 	private String role;
 	private DatabaseConnection db = DatabaseConnection.getInstance();
 	
+	public User() {}
+	
 	protected User(String name, String email, String password, String role) {
 		super();
 		this.name = name;

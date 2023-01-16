@@ -39,10 +39,7 @@ public class AuthFacade {
 		
 		UserFactory registeredUserFactory = new CustomerFactory();
 		
-		Customer customer = (Customer) registeredUserFactory.getUser();
-		customer.setName(name);
-		customer.setEmail(email);
-		customer.setPassword(password);
+		Customer customer = (Customer) registeredUserFactory.getUser(name, email, password);
 		customer.setPhone(phone);
 		if(!customer.insert()) {
 			return false;
