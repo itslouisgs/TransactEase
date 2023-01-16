@@ -1,11 +1,11 @@
 package main;
 
-import views.OrderPage;
+import views.LoginPage;
 
 public class Main {
 
 	public Main() {
-		new OrderPage();
+		new LoginPage();
 	}
 	
 	public static void main(String[] args) {

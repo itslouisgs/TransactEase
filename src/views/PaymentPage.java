@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -42,7 +44,7 @@ public class PaymentPage extends JFrame {
 		
 		initialize();
 		setVisible(true);
-		setSize(new Dimension(500, 450));
+		setSize(new Dimension(500, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
@@ -97,10 +99,10 @@ public class PaymentPage extends JFrame {
 		totalPanel.add(lblTotal);
 		totalPanel.add(lblTotalVal);
 		
-		paymentPanel.add(scroll);
 		paymentPanel.add(choosePanel);
 		
-		detailPanel.add(paymentPanel, BorderLayout.CENTER);
+		detailPanel.add(scroll, BorderLayout.CENTER);
+		detailPanel.add(paymentPanel, BorderLayout.SOUTH);
 		
 		centerPanel.add(detailPanel, BorderLayout.CENTER);
 		centerPanel.add(totalPanel, BorderLayout.SOUTH);
@@ -139,15 +141,23 @@ public class PaymentPage extends JFrame {
 
 		}
 		
-		lblSubtotalVal.setText("Rp. " + current.calculateSubotal().toString());
-		lblTaxVal.setText("Rp. " + current.calculateTax().toString());
-		lblTotalVal.setText("Rp. " + current.calculateTotal().toString());
+		lblSubtotalVal.setText(String.format("Rp. %.2f", current.calculateSubotal()));
+		lblTaxVal.setText(String.format("Rp. %.2f", current.calculateTax()));
+		lblTotalVal.setText(String.format("Rp. %.2f", current.calculateTotal()));
 
         revalidate();
         repaint();
 	}
 
 	private void addListener() {
+		btnPay.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		jcb.addItemListener(new ItemListener() {
 			
 			@Override
@@ -170,9 +180,9 @@ public class PaymentPage extends JFrame {
 			        	current.setPayments(p);
 			        	
 			        	if(chosen == 1) {
-			        		detailPanel.remove(1);
+			        		paymentPanel.remove(1);
 			        	}
-			        	detailPanel.add(p.displayPaymentDetail(), BorderLayout.SOUTH);
+			        	paymentPanel.add(p.payments());
 			        	chosen = 1;
 			        	revalidate();
 			        	repaint();
