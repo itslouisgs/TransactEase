@@ -15,19 +15,12 @@ public abstract class Payments {
 		super();
 		this.paymentName = paymentName;
 		this.paymentId = "";
-		for(int i = 0; i < 8; i++) {
-			this.paymentId += getRandomID();
-		}
 	}
 
-	private char getRandomID() {
-		String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		return base.charAt(new Random().nextInt(base.length()));
-	}
 
-	public abstract JPanel displayPaymentDetail();
-	
 	public final JPanel payments() {
+		generateId();
+		
 		JPanel panel = new JPanel(new GridLayout(2, 1));
 		JPanel display = displayPaymentDetail();
 		JPanel label = paymentType();
@@ -37,6 +30,19 @@ public abstract class Payments {
 		
 		return panel;
 	}
+	
+	public void generateId() {
+		for (int i = 0; i < 8; i++) {
+			this.paymentId += getRandomID();
+		}
+	}
+	
+	private char getRandomID() {
+		String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		return base.charAt(new Random().nextInt(base.length()));
+	}
+
+	public abstract JPanel displayPaymentDetail();
 	
 	public JPanel paymentType() {
 		FlowLayout fl = new FlowLayout();
@@ -65,7 +71,4 @@ public abstract class Payments {
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
-	
-	
-	
 }
