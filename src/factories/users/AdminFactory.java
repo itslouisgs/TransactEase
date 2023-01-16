@@ -1,12 +1,12 @@
 package factories.users;
 
 import models.users.Admin;
-import models.users.RegisteredUser;
+import models.users.User;
 
 public class AdminFactory implements RegisteredUserFactory {
 
 	@Override
-	public RegisteredUser getUser() {
+	public User getUser() {
 		return new Admin();
 	}
 

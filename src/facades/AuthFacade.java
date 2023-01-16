@@ -4,7 +4,7 @@ import factories.users.CustomerFactory;
 import factories.users.RegisteredUserFactory;
 import models.users.Customer;
 import models.users.Guest;
-import models.users.RegisteredUser;
+import models.users.User;
 import models.users.User;
 import session.LoggedInUser;
 
@@ -71,7 +71,7 @@ public class AuthFacade {
 			return false;
 		}
 		
-		RegisteredUser u = new RegisteredUser().authenticate(email, password);
+		User u = new User().authenticate(email, password);
 		if(u == null) {
 			errorMsg = "Wrong credential!";
 			return false;

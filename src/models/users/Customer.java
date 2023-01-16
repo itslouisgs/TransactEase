@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import database.DatabaseConnection;
 
-public class Customer extends RegisteredUser {
+public class Customer extends User {
 	private String phone;
 	private int points;
 	private static DatabaseConnection db = DatabaseConnection.getInstance();

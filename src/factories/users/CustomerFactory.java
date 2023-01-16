@@ -1,12 +1,12 @@
 package factories.users;
 
 import models.users.Customer;
-import models.users.RegisteredUser;
+import models.users.User;
 
 public class CustomerFactory implements RegisteredUserFactory {
 
 	@Override
-	public RegisteredUser getUser() {
+	public User getUser() {
 		return new Customer();
 	}
 }
