@@ -3,7 +3,7 @@ package factories.users;
 import models.users.Customer;
 import models.users.User;
 
-public class CustomerFactory implements RegisteredUserFactory {
+public class CustomerFactory implements UserFactory {
 
 	@Override
 	public User getUser() {

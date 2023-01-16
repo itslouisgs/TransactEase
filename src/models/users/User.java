@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import database.DatabaseConnection;
 import factories.users.AdminFactory;
 import factories.users.CustomerFactory;
-import factories.users.RegisteredUserFactory;
+import factories.users.UserFactory;
 
 public class User {
 	private String name;
@@ -58,7 +58,7 @@ public class User {
 	}
 	
 	public User map(ResultSet rs) {
-		RegisteredUserFactory factory = null;
+		UserFactory factory = null;
 		User user = null;
 		
 		try {

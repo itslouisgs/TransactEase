@@ -1,6 +1,5 @@
 package main;
 
-import views.LoginPage;
 import views.OrderPage;
 
 public class Main {
@@ -8,7 +7,7 @@ public class Main {
 	public Main() {
 		new OrderPage();
 	}
-
+	
 	public static void main(String[] args) {
 		new Main();
 	}
