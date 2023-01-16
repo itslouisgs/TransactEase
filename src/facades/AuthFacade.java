@@ -1,10 +1,8 @@
 package facades;
 
 import factories.users.CustomerFactory;
-import factories.users.RegisteredUserFactory;
+import factories.users.UserFactory;
 import models.users.Customer;
-import models.users.Guest;
-import models.users.RegisteredUser;
 import models.users.User;
 import session.LoggedInUser;
 
@@ -39,7 +37,7 @@ public class AuthFacade {
 			return false;
 		} 
 		
-		RegisteredUserFactory registeredUserFactory = new CustomerFactory();
+		UserFactory registeredUserFactory = new CustomerFactory();
 		
 		Customer customer = (Customer) registeredUserFactory.getUser();
 		customer.setName(name);
@@ -51,11 +49,6 @@ public class AuthFacade {
 		}
 		
 		return true;
-	}
-	
-	public void loginAsGuest() {
-		LoggedInUser.getInstance().setLogged(new Guest());
-		return;
 	}
 	
 	public boolean login(String email, String password) {
@@ -71,7 +64,7 @@ public class AuthFacade {
 			return false;
 		}
 		
-		RegisteredUser u = new RegisteredUser().authenticate(email, password);
+		User u = new User().authenticate(email, password);
 		if(u == null) {
 			errorMsg = "Wrong credential!";
 			return false;
