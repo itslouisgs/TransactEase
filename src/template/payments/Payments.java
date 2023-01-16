@@ -1,7 +1,10 @@
 package template.payments;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import models.order.Order;
@@ -25,5 +28,28 @@ public abstract class Payments {
 	}
 
 	public abstract JPanel displayPaymentDetail();
+	
+	public final JPanel payments() {
+		JPanel panel = new JPanel(new GridLayout(2, 1));
+		JPanel display = displayPaymentDetail();
+		JPanel label = paymentType();
+		
+		panel.add(label);
+		panel.add(display);
+		
+		return panel;
+	}
+	
+	public JPanel paymentType() {
+		FlowLayout fl = new FlowLayout();
+        fl.setAlignment(FlowLayout.LEFT);
+		JPanel panel = new JPanel(fl);
+		
+		JLabel label = new JLabel("Payment ID : " + paymentId);
+		
+		panel.add(label);
+		
+		return panel;
+	}
 	
 }
