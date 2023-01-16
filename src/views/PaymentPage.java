@@ -139,9 +139,9 @@ public class PaymentPage extends JFrame {
 
 		}
 		
-		lblSubtotalVal.setText("Rp. " + current.calculateSubotal().toString());
-		lblTaxVal.setText("Rp. " + current.calculateTax().toString());
-		lblTotalVal.setText("Rp. " + current.calculateTotal().toString());
+		lblSubtotalVal.setText(String.format("Rp. %.2f", current.calculateSubotal()));
+		lblTaxVal.setText(String.format("Rp. %.2f", current.calculateTax()));
+		lblTotalVal.setText(String.format("Rp. %.2f", current.calculateTotal()));
 
         revalidate();
         repaint();
