@@ -10,7 +10,10 @@ import factories.users.CustomerFactory;
 import factories.users.UserFactory;
 
 public class User {
+<<<<<<< HEAD
 	private int id;
+=======
+>>>>>>> 6225c82a4c736dc76736a99ed47b6209acfa2a0f
 	private String name;
 	private String email;
 	private String password;
@@ -19,6 +22,7 @@ public class User {
 	
 	public User() {}
 	
+<<<<<<< HEAD
 	protected User(String role) {
 		super();
 		this.role = role;
@@ -32,6 +36,16 @@ public class User {
 		this.id = id;
 	}
 
+=======
+	protected User(String name, String email, String password, String role) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
+
+>>>>>>> 6225c82a4c736dc76736a99ed47b6209acfa2a0f
 	public String getName() {
 		return name;
 	}
@@ -59,6 +73,7 @@ public class User {
 	public String getRole() {
 		return role;
 	}
+<<<<<<< HEAD
 	
 	public User map(ResultSet rs) {
 		UserFactory factory = null;
@@ -84,6 +99,38 @@ public class User {
 			}
 		} catch (SQLException e) {}
 
+=======
+
+	public void displayInformation() {
+		System.out.println("Name: " + getName());
+		System.out.println("Email: " + getEmail());
+		System.out.println("Role: " + getRole());
+	}
+	
+	public User map(ResultSet rs) {
+		UserFactory factory = null;
+		User user = null;
+		
+		try {
+			if (rs.getBoolean("is_admin")) {
+				factory = new AdminFactory();
+			} else {
+				factory = new CustomerFactory();
+			}
+			
+			user = factory.getUser(
+					rs.getString("name"), 
+					rs.getString("email"), 
+					rs.getString("password")
+				);
+			
+			if (user.getRole().equalsIgnoreCase("customer")) {
+				((Customer) user).setPhone(rs.getString("phone"));
+				((Customer) user).addPoints(rs.getInt("points"));				
+			}
+		} catch (SQLException e) {}
+
+>>>>>>> 6225c82a4c736dc76736a99ed47b6209acfa2a0f
 		return user;
 	}
 	
