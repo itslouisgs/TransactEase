@@ -14,8 +14,13 @@ public abstract class Payments {
 	public Payments(String paymentName) {
 		this.paymentName = paymentName;
 		this.paymentId = "";
+		generateId();
 	}
 
+	public Payments(String paymentName, String paymentId) {
+		this.paymentName = paymentName;
+		this.paymentId = paymentId;
+	}
 
 	public final JPanel payments() {
 		generateId();

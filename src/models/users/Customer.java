@@ -9,9 +9,9 @@ public class Customer extends User {
 	private String phone;
 	private int points;
 	private static DatabaseConnection db = DatabaseConnection.getInstance();
-
-	public Customer(String name, String email, String password) {
-		super(name, email, password, "customer");
+	
+	public Customer(int id, String name, String email, String password) {
+		super(id, name, email, password, "customer");
 		this.points = 0;
 	}
 
