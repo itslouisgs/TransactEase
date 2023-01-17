@@ -13,6 +13,10 @@ public class EMoneyPayments extends Payments {
 	public EMoneyPayments() {
 		super("E-Money");
 	}
+	
+	public EMoneyPayments(String paymentId) {
+		super("E-Money", paymentId);
+	}
 
 	@Override
 	public JPanel displayPaymentDetail() {

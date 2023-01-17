@@ -1,5 +1,9 @@
+/builder/
+/database/
 /facades/
 /factories/
-/models/
-/views/
 /main/
+/models/
+/session/
+/template/
+/views/

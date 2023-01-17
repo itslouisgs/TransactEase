@@ -11,7 +11,10 @@ public class CashPayments extends Payments {
 
 	public CashPayments() {
 		super("Cash");
-		// TODO Auto-generated constructor stub
+	}
+	
+	public CashPayments(String paymentId) {
+		super("Cash", paymentId);
 	}
 
 	@Override

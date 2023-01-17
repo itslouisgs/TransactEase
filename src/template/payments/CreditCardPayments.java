@@ -14,6 +14,10 @@ public class CreditCardPayments extends Payments {
 	public CreditCardPayments() {
 		super("Credit Card");
 	}
+	
+	public CreditCardPayments(String paymentId) {
+		super("Credit Card", paymentId);
+	}
 
 	@Override
 	public JPanel displayPaymentDetail() {

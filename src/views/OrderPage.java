@@ -44,18 +44,18 @@ public class OrderPage extends JFrame {
 	private JScrollPane scroll;
 	private JMenuBar menuBar;
 	private JMenu menu;
-	private JMenuItem menuItem;
+	private JMenuItem menuItem1, menuItem2;
 	
 	private Vector<Product> products = new Vector<>();
 	private Order current = new Order();
 
 	public OrderPage() {
 		initialize();
-		setVisible(true);
 		setSize(new Dimension(800, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		
+		setVisible(true);
+				
 		addListener();
 		loadData();
 	}
@@ -105,11 +105,15 @@ public class OrderPage extends JFrame {
 		scroll = new JScrollPane(table);
 		
 		menuBar = new JMenuBar();
-		menu = new JMenu("Hello dear customer!");
-		menuItem = new JMenuItem("Logout");
+		menu = new JMenu("Hello user!");
+		menuItem1 = new JMenuItem("View Order History");
+		menuItem2 = new JMenuItem("Logout");
 		
-		menu.add(menuItem);
+		menu.add(menuItem1);
+		menu.add(menuItem2);
+		
 		menuBar.add(menu);
+		
 		setJMenuBar(menuBar);
 		
 		totalPanel.add(lblSubtotal);
@@ -135,7 +139,17 @@ public class OrderPage extends JFrame {
 	}
 
 	private void addListener() {
-		menuItem.addActionListener(new ActionListener() {
+		menuItem1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new HistoryPage();
+				dispose();
+			}
+		});
+		
+		menuItem2.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

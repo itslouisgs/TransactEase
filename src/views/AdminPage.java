@@ -45,7 +45,7 @@ public class AdminPage extends JFrame {
 	private JMenu menu;
 	private JMenuItem menuItem;
 	
-	Vector<Product> products = new Vector<>();
+	private Vector<Product> products = new Vector<>();
 
 	public AdminPage() {
 		initialize();

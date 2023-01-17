@@ -6,7 +6,7 @@ import builder.ProductBuilder;
 import models.products.Product;
 
 public class ProductFacade {
-	public static ProductFacade instance;
+	private static ProductFacade instance;
 	private String errorMsg = "";
 	
 	public static ProductFacade getInstance() {
@@ -25,7 +25,7 @@ public class ProductFacade {
 		return errorMsg;
 	}
 	
-	public String generateId() {
+	private String generateId() {
 		return String.format("P%03d", getAllProducts().size() + 1);
 	}
 

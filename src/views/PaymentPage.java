@@ -154,7 +154,16 @@ public class PaymentPage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(jcb.getSelectedIndex() > 0) {
+					if(current.insertOrder()) {
+						JOptionPane.showMessageDialog(null, "Payment success! Thankyou for shopping!");
+						
+						new HistoryPage();
+						dispose();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose payment method!");
+				}
 			}
 		});
 		

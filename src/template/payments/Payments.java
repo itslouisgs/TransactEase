@@ -12,12 +12,16 @@ public abstract class Payments {
 	private String paymentId;
 	
 	public Payments(String paymentName) {
-		super();
 		this.paymentName = paymentName;
 		this.paymentId = "";
 		for(int i = 0; i < 8; i++) {
 			this.paymentId += getRandomID();
 		}
+	}
+	
+	public Payments(String paymentName, String paymentId) {
+		this.paymentName = paymentName;
+		this.paymentId = paymentId;
 	}
 
 	private char getRandomID() {
@@ -49,5 +53,14 @@ public abstract class Payments {
 		
 		return panel;
 	}
+
+	public String getPaymentName() {
+		return paymentName;
+	}
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+	
 	
 }

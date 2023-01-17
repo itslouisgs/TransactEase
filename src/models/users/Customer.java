@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import database.DatabaseConnection;
 
-public class Customer extends RegisteredUser {
+public class Customer extends User {
 	private String phone;
 	private int points;
 	private static DatabaseConnection db = DatabaseConnection.getInstance();
@@ -33,13 +33,6 @@ public class Customer extends RegisteredUser {
 	
 	public void subtractPoints(int value) {
 		this.points -= value; 
-	}
-	
-	@Override
-	public void displayInformation() {
-		super.displayInformation();
-		System.out.println("Phone: " + getPhone());
-		System.out.println("Points: " + getPoints());
 	}
 	
 	public boolean insert() {
