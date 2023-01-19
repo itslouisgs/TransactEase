@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import builder.ProductBuilder;
 import database.DatabaseConnection;
 
 public class Product {
@@ -12,12 +13,7 @@ public class Product {
 	private int price, stock;
 	private DatabaseConnection con = DatabaseConnection.getInstance();
 	
-	public Product(String id, String name, int price, int stock) {
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.stock = stock;
-	}
+	public Product() {}
 
 	public String getId() {
 		return id;
@@ -60,7 +56,9 @@ public class Product {
 			name = rs.getString("name");
 			price = rs.getInt("price");
 			stock = rs.getInt("stock");
-			return new Product(id, name, price, stock);
+			
+			ProductBuilder pb = new ProductBuilder();
+			return pb.setId(id).setName(name).setPrice(price).setStock(stock).build();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,14 +83,15 @@ public class Product {
 		return null;
 	}
 	
-	public boolean insertProduct() {
-		String query = String.format("INSERT INTO Products (name , price , stock) VALUES (?, ?, ?)");
+	public boolean insert() {
+		String query = String.format("INSERT INTO Products (id, name, price, stock) VALUES (?, ?, ?, ?)");
 		PreparedStatement ps = con.prepareStatement(query);
 			
 		try {
-			ps.setString(1, name);
-			ps.setInt(2, price);
-			ps.setInt(3, stock);
+			ps.setString(1, id);
+			ps.setString(2, name);
+			ps.setInt(3, price);
+			ps.setInt(4, stock);
 			return ps.executeUpdate() == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,7 +99,7 @@ public class Product {
 		return false;
 	}
 	
-	public boolean updateProduct() {
+	public boolean update() {
 		String query = String.format("UPDATE Products SET name=?, price=?, stock=? WHERE id=?");
 		PreparedStatement ps = con.prepareStatement(query);
 			
@@ -118,7 +117,7 @@ public class Product {
 		
 	}
 	
-	public boolean deleteProduct() {
+	public boolean delete() {
 		String query = String.format("DELETE FROM Products WHERE id=?");
 		PreparedStatement ps = con.prepareStatement(query);
 		

@@ -4,9 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
-
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 public class DatabaseConnection {
 	private final String username = "root";
@@ -76,7 +75,8 @@ public class DatabaseConnection {
     public PreparedStatement prepareStatement(String query) {
     	PreparedStatement ps = null;
     	try {
-			ps = con.prepareStatement(query);
+			ps = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_UPDATABLE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

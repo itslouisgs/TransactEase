@@ -5,8 +5,8 @@ import models.products.Product;
 public class ProductBuilder {
 	private Product product;
 
-	public ProductBuilder(Product product) {
-		this.product = product;
+	public ProductBuilder() {
+		this.product = new Product();
 	}
 	
 	public ProductBuilder setId(String id) {

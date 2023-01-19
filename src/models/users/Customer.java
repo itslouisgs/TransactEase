@@ -1,13 +1,17 @@
 package models.users;
 
-import facades.DatabaseFacade;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class Customer extends RegisteredUser {
+import database.DatabaseConnection;
+
+public class Customer extends User {
 	private String phone;
 	private int points;
-
-	public Customer() {
-		super("customer");
+	private static DatabaseConnection db = DatabaseConnection.getInstance();
+	
+	public Customer(int id, String name, String email, String password) {
+		super(id, name, email, password, "customer");
 		this.points = 0;
 	}
 
@@ -31,14 +35,20 @@ public class Customer extends RegisteredUser {
 		this.points -= value; 
 	}
 	
-	public void saveToDatabase() {
-		DatabaseFacade.insertCustomer(this);
-	}
-	
-	@Override
-	public void displayInformation() {
-		super.displayInformation();
-		System.out.println("Phone: " + getPhone());
-		System.out.println("Points: " + getPoints());
+	public boolean insert() {
+		PreparedStatement st = db.prepareStatement("insert into users (name, email, password, phone, points, is_admin) values (?, ?, ?, ?, ?, ?)");
+		
+		try {
+			st.setString(1, getName());
+			st.setString(2, getEmail());
+			st.setString(3, getPassword());
+			st.setString(4, getPhone());
+			st.setInt(5, 0);
+			st.setBoolean(6, false);
+			return st.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
