@@ -1,17 +1,17 @@
-package facades;
+package utils;
 
 import java.util.Vector;
 
 import builder.ProductBuilder;
 import models.products.Product;
 
-public class ProductFacade {
-	private static ProductFacade instance;
+public class ProductService {
+	private static ProductService instance;
 	private String errorMsg = "";
 	
-	public static ProductFacade getInstance() {
+	public static ProductService getInstance() {
 		if(instance == null) {
-			instance = new ProductFacade();
+			instance = new ProductService();
 		}
 		
 		return instance;

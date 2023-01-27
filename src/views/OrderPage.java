@@ -28,11 +28,11 @@ import javax.swing.JTable;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
-import facades.AuthFacade;
-import facades.ProductFacade;
 import models.order.Order;
 import models.order.OrderDetail;
 import models.products.Product;
+import utils.AuthService;
+import utils.ProductService;
 import views.component.ButtonColumn;
 
 public class OrderPage extends JFrame {
@@ -153,7 +153,7 @@ public class OrderPage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AuthFacade.getInstance().logout();
+				AuthService.getInstance().logout();
 				new LoginPage();
 				dispose();
 			}
@@ -251,7 +251,7 @@ public class OrderPage extends JFrame {
 	}
 
 	public void loadData() {
-		products = ProductFacade.getInstance().getAllProducts();
+		products = ProductService.getInstance().getAllProducts();
 				
 		setData();
 	}

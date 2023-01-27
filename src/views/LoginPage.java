@@ -25,8 +25,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import database.DatabaseConnection;
-import facades.AuthFacade;
 import session.LoggedInUser;
+import utils.AuthService;
 
 public class LoginPage extends JFrame {
 	private JPanel northPanel, centerPanel, southPanel;
@@ -57,8 +57,8 @@ public class LoginPage extends JFrame {
 				String email = emailTextField.getText();
 				String password = passwordField.getText();
 				
-				if(!AuthFacade.getInstance().login(email, password)) {
-					JOptionPane.showMessageDialog(null, AuthFacade.getInstance().getErrorMsg());
+				if(!AuthService.getInstance().login(email, password)) {
+					JOptionPane.showMessageDialog(null, AuthService.getInstance().getErrorMsg());
 				} else {
 					JOptionPane.showMessageDialog(null, "Login success!");
 					if(LoggedInUser.getInstance().getLogged().getRole().equals("admin")) {

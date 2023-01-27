@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import database.DatabaseConnection;
-import facades.OrderFacade;
 import session.LoggedInUser;
 import template.payments.CashPayments;
 import template.payments.CreditCardPayments;

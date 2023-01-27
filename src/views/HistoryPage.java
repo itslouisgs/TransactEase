@@ -24,11 +24,10 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import facades.AuthFacade;
-import facades.OrderFacade;
 import models.order.Order;
 import models.order.OrderDetail;
 import models.products.Product;
+import utils.AuthService;
 
 public class HistoryPage extends JFrame {
 	private JPanel panel;
@@ -115,7 +114,7 @@ public class HistoryPage extends JFrame {
 	}
 
 	private void loadData() {
-		orders = OrderFacade.getInstance().getAllOrdersByUser();
+		orders = new Order().getAllByUser();
 		setData();
 	}
 	
@@ -159,7 +158,7 @@ public class HistoryPage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AuthFacade.getInstance().logout();
+				AuthService.getInstance().logout();
 				new LoginPage();
 				dispose();
 			}
