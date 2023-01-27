@@ -26,9 +26,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import facades.AuthFacade;
-import facades.ProductFacade;
 import models.products.Product;
+import utils.AuthService;
+import utils.ProductService;
 
 public class AdminPage extends JFrame {
 	private JPanel allPanel, northPanel, centerPanel, southPanel, insertPanel, updatePanel, deletePanel;
@@ -90,10 +90,10 @@ public class AdminPage extends JFrame {
 				String price = priceTxt.getText();
 				String stock = stockTxt.getText();
 
-				boolean inserted = ProductFacade.getInstance().insertProduct(name, price, stock);
+				boolean inserted = ProductService.getInstance().insertProduct(name, price, stock);
 				
 				if(inserted == false) {
-					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+					JOptionPane.showMessageDialog(null, ProductService.getInstance().getErrorMsg());
 				}
 				else {
 					loadData();;
@@ -115,9 +115,9 @@ public class AdminPage extends JFrame {
 				String price = priceUTxt.getText();
 				String stock = stockUTxt.getText();
 
-				boolean updated = ProductFacade.getInstance().updateProduct(id, name, price, stock);
+				boolean updated = ProductService.getInstance().updateProduct(id, name, price, stock);
 				if(!updated) {
-					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+					JOptionPane.showMessageDialog(null, ProductService.getInstance().getErrorMsg());
 				}else {
 					loadData();
 					
@@ -135,10 +135,10 @@ public class AdminPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id = idTxt.getText();
 
-				boolean deleted = ProductFacade.getInstance().deleteSong(id);
+				boolean deleted = ProductService.getInstance().deleteSong(id);
 				
 				if(!deleted) {
-					JOptionPane.showMessageDialog(null, ProductFacade.getInstance().getErrorMsg());
+					JOptionPane.showMessageDialog(null, ProductService.getInstance().getErrorMsg());
 				}else {
 					loadData();
 					
@@ -193,7 +193,7 @@ public class AdminPage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AuthFacade.getInstance().logout();
+				AuthService.getInstance().logout();
 				new LoginPage();
 				dispose();
 			}
@@ -326,7 +326,7 @@ public class AdminPage extends JFrame {
 	}
 
 	public void loadData() {
-		products = ProductFacade.getInstance().getAllProducts();
+		products = ProductService.getInstance().getAllProducts();
 				
 		setData();
 	}

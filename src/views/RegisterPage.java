@@ -24,7 +24,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import database.DatabaseConnection;
-import facades.AuthFacade;
+import utils.AuthService;
 
 public class RegisterPage extends JFrame {
 	private JPanel northPanel, centerPanel, southPanel;
@@ -57,8 +57,8 @@ public class RegisterPage extends JFrame {
 				String password = passwordField.getText();
 				String confirm = confirmField.getText();
 				
-				if(!AuthFacade.getInstance().register(name, email, password, confirm, phone)) {
-					JOptionPane.showMessageDialog(null, AuthFacade.getInstance().getErrorMsg());
+				if(!AuthService.getInstance().register(name, email, password, confirm, phone)) {
+					JOptionPane.showMessageDialog(null, AuthService.getInstance().getErrorMsg());
 				} else {
 					JOptionPane.showMessageDialog(null, "Register success! You will be redirected to Login Page.");
 					new LoginPage();

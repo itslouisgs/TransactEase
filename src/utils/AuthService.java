@@ -1,4 +1,4 @@
-package facades;
+package utils;
 
 import factories.users.CustomerFactory;
 import factories.users.UserFactory;
@@ -6,13 +6,13 @@ import models.users.Customer;
 import models.users.User;
 import session.LoggedInUser;
 
-public class AuthFacade {
-	public static AuthFacade instance;
+public class AuthService {
+	public static AuthService instance;
 	private String errorMsg = "";
 	
-	public static AuthFacade getInstance() {
+	public static AuthService getInstance() {
 		if(instance == null) {
-			instance = new AuthFacade();
+			instance = new AuthService();
 		}
 		
 		return instance;
